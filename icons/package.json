@@ -1,0 +1,17 @@
+{
+  "name": "@condev-ui/icons",
+  "version": "0.1.0",
+  "private": false,
+  "main": "./react/index.js",
+  "types": "./react/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "react",
+    "svg",
+    "font",
+    "meta.json"
+  ],
+  "peerDependencies": {
+    "react": ">=18"
+  }
+}

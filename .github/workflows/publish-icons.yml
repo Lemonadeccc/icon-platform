@@ -1,0 +1,60 @@
+name: Publish Icons
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Optional version (e.g. 1.2.3). Leave empty to bump patch."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Bump version
+        working-directory: icons
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            npm version "${{ inputs.version }}" --no-git-tag-version
+          else
+            npm version patch --no-git-tag-version
+          fi
+
+      - name: Write publish metadata
+        run: |
+          node -e "const fs=require('fs');const path=require('path');const pkg=require('./icons/package.json');const file=path.join('icons','publish.json');const payload={lastPublishedVersion:pkg.version,lastPublishedAt:new Date().toISOString()};fs.writeFileSync(file,JSON.stringify(payload,null,2)+'\\n');"
+
+      - name: Update changelog
+        run: |
+          node -e "const fs=require('fs');const path=require('path');const pkg=require('./icons/package.json');const file=path.join('CHANGELOG.md');const header='## v'+pkg.version+' - '+new Date().toISOString().slice(0,10);let content='';if(fs.existsSync(file)){content=fs.readFileSync(file,'utf8').trim();}const next=(content?content+'\\n\\n':'')+header+'\\n- Publish icons';fs.writeFileSync(file,next+'\\n');"
+
+      - name: Commit version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add icons/package.json icons/publish.json CHANGELOG.md
+          if git diff --cached --quiet; then
+            echo "No version changes to commit."
+            exit 0
+          fi
+          VERSION=$(node -p "require('./icons/package.json').version")
+          git commit -m "chore: publish icons v${VERSION}"
+          git push
+
+      - name: Publish to npm
+        working-directory: icons
+        run: npm publish --access public --provenance
