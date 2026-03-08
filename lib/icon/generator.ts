@@ -46,9 +46,13 @@ export async function writeReactIndex(metas: IconMeta[]) {
     .map((meta) => meta.componentName);
 
   iconNames.forEach((componentName) => {
-    exportLines.push(`export { ${componentName} } from "./${componentName}";`);
+    exportLines.push(`import { ${componentName} } from "./${componentName}";`);
     typeLines.push(`export const ${componentName}: IconComponent;`);
   });
+
+  if (iconNames.length) {
+    exportLines.push(`export { ${iconNames.join(", ")} };`);
+  }
 
   exportLines.push("");
   exportLines.push("const iconMap = {");

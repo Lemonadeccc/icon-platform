@@ -1,8 +1,9 @@
 import * as React from "react";
 export { Icon as BaseIcon } from "./Icon";
 export { createIcon } from "./createIcon";
-export { Company } from "./Company";
-export { Compass } from "./Compass";
+import { Company } from "./Company";
+import { Compass } from "./Compass";
+export { Company, Compass };
 
 const iconMap = {
   Company,
