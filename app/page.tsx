@@ -437,11 +437,10 @@ export default function Home() {
             </label>
           </div>
           <div
-            className={`mt-4 rounded-2xl border border-dashed px-4 py-6 text-center text-sm transition ${
-              dragActive
-                ? "border-slate-500 bg-slate-950/60 text-slate-200"
-                : "border-slate-800 text-slate-500"
-            }`}
+            className={`mt-4 rounded-2xl border border-dashed px-4 py-6 text-center text-sm transition ${dragActive
+              ? "border-slate-500 bg-slate-950/60 text-slate-200"
+              : "border-slate-800 text-slate-500"
+              }`}
             onDragEnter={(event) => {
               event.preventDefault();
               setDragActive(true);
@@ -474,34 +473,34 @@ export default function Home() {
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
-                <span>当前版本：{publishInfo?.currentVersion || "未知"}</span>
-                <span>
-                  {publishInfo?.lastPublishedVersion
-                    ? `上次发布：${publishInfo.lastPublishedVersion} · ${publishInfo.lastPublishedAt ? new Date(publishInfo.lastPublishedAt).toLocaleString() : ""}`
-                    : "暂无历史发布"}
-                </span>
-                <input
-                  value={publishVersion}
-                  onChange={(event) => setPublishVersion(event.target.value)}
-                  placeholder="版本号 (可选)"
-                  className="h-9 w-36 rounded-full border border-slate-800 bg-slate-950 px-3 text-sm text-slate-200 placeholder:text-slate-600"
-                />
-                <button
-                  type="button"
-                  onClick={publishIcons}
-                  disabled={publishBusy}
-                  className="h-9 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-4 text-sm text-emerald-200 hover:border-emerald-400 disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  {publishBusy ? "发布中..." : "确认发布"}
-                </button>
-                <button
-                  type="button"
-                  onClick={deleteAll}
-                  disabled={actionBusy || !icons.length}
-                  className="h-9 rounded-full border border-rose-500/40 bg-rose-500/10 px-4 text-sm text-rose-200 hover:border-rose-400 disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  全部删除
-                </button>
+              <span>当前版本：{publishInfo?.currentVersion || "未知"}</span>
+              <span>
+                {publishInfo?.lastPublishedVersion
+                  ? `上次发布：${publishInfo.lastPublishedVersion} · ${publishInfo.lastPublishedAt ? new Date(publishInfo.lastPublishedAt).toLocaleString() : ""}`
+                  : "暂无历史发布"}
+              </span>
+              <input
+                value={publishVersion}
+                onChange={(event) => setPublishVersion(event.target.value)}
+                placeholder="版本号 (可选)"
+                className="h-9 w-36 rounded-full border border-slate-800 bg-slate-950 px-3 text-sm text-slate-200 placeholder:text-slate-600"
+              />
+              <button
+                type="button"
+                onClick={publishIcons}
+                disabled={publishBusy}
+                className="h-9 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-4 text-sm text-emerald-200 hover:border-emerald-400 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {publishBusy ? "发布中..." : "确认发布"}
+              </button>
+              <button
+                type="button"
+                onClick={deleteAll}
+                disabled={actionBusy || !icons.length}
+                className="h-9 rounded-full border border-rose-500/40 bg-rose-500/10 px-4 text-sm text-rose-200 hover:border-rose-400 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                全部删除
+              </button>
             </div>
           </div>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
